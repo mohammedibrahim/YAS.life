@@ -1,0 +1,26 @@
+{
+  "name": "mibrahim/YasLife",
+  "description": "list all the countries which speaks the same language and checks if given two countries speak the same language by using open rest api",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Mohamed Ibrahim",
+      "email": "m@mibrah.im"
+    }
+  ],
+  "require": {
+    "illuminate/container": "^5.7"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.4",
+    "dompdf/dompdf": "^0.8.1",
+    "phpdocumentor/reflection-docblock": "~2.0",
+    "phpdocumentor/phpdocumentor": "^2.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "YasLife\\": "app",
+      "YasLifeTest\\": "tests"
+    }
+  }
+}
