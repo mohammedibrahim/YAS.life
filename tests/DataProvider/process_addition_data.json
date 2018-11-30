@@ -1,0 +1,62 @@
+[
+  {
+    "month_name": "December",
+    "salary_payment_date": "Monday 31 Dec 2018",
+    "bonus_payment_date": "Wednesday 19 Dec 2018"
+  },
+  {
+    "month_name": "January",
+    "salary_payment_date": "Thursday 31 Jan 2019",
+    "bonus_payment_date": "Tuesday 15 Jan 2019"
+  },
+  {
+    "month_name": "February",
+    "salary_payment_date": "Thursday 28 Feb 2019",
+    "bonus_payment_date": "Friday 15 Feb 2019"
+  },
+  {
+    "month_name": "March",
+    "salary_payment_date": "Friday 29 Mar 2019",
+    "bonus_payment_date": "Friday 15 Mar 2019"
+  },
+  {
+    "month_name": "April",
+    "salary_payment_date": "Tuesday 30 Apr 2019",
+    "bonus_payment_date": "Monday 15 Apr 2019"
+  },
+  {
+    "month_name": "May",
+    "salary_payment_date": "Friday 31 May 2019",
+    "bonus_payment_date": "Wednesday 15 May 2019"
+  },
+  {
+    "month_name": "June",
+    "salary_payment_date": "Friday 28 Jun 2019",
+    "bonus_payment_date": "Wednesday 19 Jun 2019"
+  },
+  {
+    "month_name": "July",
+    "salary_payment_date": "Wednesday 31 Jul 2019",
+    "bonus_payment_date": "Monday 15 Jul 2019"
+  },
+  {
+    "month_name": "August",
+    "salary_payment_date": "Friday 30 Aug 2019",
+    "bonus_payment_date": "Thursday 15 Aug 2019"
+  },
+  {
+    "month_name": "September",
+    "salary_payment_date": "Monday 30 Sep 2019",
+    "bonus_payment_date": "Wednesday 18 Sep 2019"
+  },
+  {
+    "month_name": "October",
+    "salary_payment_date": "Thursday 31 Oct 2019",
+    "bonus_payment_date": "Tuesday 15 Oct 2019"
+  },
+  {
+    "month_name": "November",
+    "salary_payment_date": "Friday 29 Nov 2019",
+    "bonus_payment_date": "Friday 15 Nov 2019"
+  }
+]
