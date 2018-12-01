@@ -2,11 +2,11 @@
 
 A command-line utility that list all the countries which speaks the same language and checks if given two countries speak the same language by using open rest api.
 
-- [Description](#markdown-header-description)
-- [Installation](#markdown-header-installation)
-- [How to use](#markdown-header-how-to-use)
-- [Code Digram](#markdown-header-code-diagram)
-- [Tests](#markdown-header-tests)
+- [Description](#description)
+- [Installation](#installation)
+- [How to use](#how-to-use)
+- [Code Digram](#code-diagram)
+- [Tests](#tests)
 
 ## Description
 
