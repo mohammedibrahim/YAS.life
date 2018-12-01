@@ -20,7 +20,7 @@ A command-line utility that list all the countries which speaks the same languag
 ## Installation
 Download or clone the tool files and go to the main app root.
 
-```php
+```bash
 cd [path_to_app]/
 ```
 
