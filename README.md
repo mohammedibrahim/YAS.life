@@ -10,8 +10,6 @@ A command-line utility that list all the countries which speaks the same languag
 
 ## Description
 
-##### The company handles their Sales payroll in the following way:
-
 - When you enter one country the tool will return the country language code and other countries that speak it.
 - When you enter two countries the tool will check if the two countries speak the with the same language or not.
 
