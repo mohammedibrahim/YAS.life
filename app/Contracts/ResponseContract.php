@@ -1,8 +1,8 @@
 <?php
 /**
- * YAS.Life.
+ * YAS.life.
  *
- * @package     YAS.Life.
+ * @package     YAS.life.
  * @author      Mohamed Ibrahim <m@mibrah.im>
  * @version     v.1.0 (30/11/2018)
  * @copyright   Copyright (c) 2018

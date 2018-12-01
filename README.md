@@ -1,4 +1,4 @@
-# YAS.Life challenge
+# YAS.life challenge
 
 A command-line utility that list all the countries which speaks the same language and checks if given two countries speak the same language by using open rest api.
 
