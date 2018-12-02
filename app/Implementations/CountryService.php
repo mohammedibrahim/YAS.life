@@ -51,6 +51,7 @@ class CountryService implements ServiceContract
         $countryName = $request->get()[1];
 
         $countryCode = $this->repository->getCountryCode($countryName);
+
         $countries = $this->repository->getCountriesSpeakingSameLanguage($countryCode, $countryName);
 
         return CountryResponseFactory::create([
@@ -71,6 +72,7 @@ class CountryService implements ServiceContract
         $secondCountryName = $request->get()[2];
 
         $firstCountryCode = $this->repository->getCountryCode($firstCountryName);
+
         $secondCountryCode = $this->repository->getCountryCode($secondCountryName);
 
         return CountryResponseFactory::create([
