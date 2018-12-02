@@ -26,7 +26,7 @@ class ErrorHandler
      * @param \Exception $exception
      * @return string
      */
-    public function getError(\Exception $exception): string
+    public function getErrorMessage(\Exception $exception): string
     {
         switch (get_class($exception)) {
 
@@ -48,7 +48,7 @@ class ErrorHandler
      * @param ClientException $exception
      * @return string
      */
-    public function getAPIRequestErrors(ClientException $exception): string
+    protected function getAPIRequestErrors(ClientException $exception): string
     {
         $uri = $exception->getRequest()->getRequestTarget();
 

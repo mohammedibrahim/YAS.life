@@ -26,9 +26,9 @@ interface RouteContract
      * @param ServiceContract $service
      * @param ErrorHandler $errorHandler
      * @param array $data
-     * @return mixed
+     * @return void
      */
-    public function print(ServiceContract $service, ErrorHandler $errorHandler, array $data);
+    public function print(ServiceContract $service, ErrorHandler $errorHandler, array $data): void;
 
     /**
      * Get Request data from browser and route it to the right service method.

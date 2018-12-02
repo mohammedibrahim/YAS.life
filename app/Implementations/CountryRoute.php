@@ -41,14 +41,14 @@ class CountryRoute implements RouteContract
      * @param ServiceContract $service
      * @param ErrorHandler $errorHandler
      * @param array $data
-     * @return mixed
+     * @return void
      */
-    public function print(ServiceContract $service, ErrorHandler $errorHandler, array $data)
+    public function print(ServiceContract $service, ErrorHandler $errorHandler, array $data): void
     {
         try {
             echo $this->serve($service, $data)->get();
         } catch (\Exception $e) {
-            echo $errorHandler->getError($e);
+            echo $errorHandler->getErrorMessage($e);
         }
     }
 
