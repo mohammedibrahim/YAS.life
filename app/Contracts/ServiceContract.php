@@ -19,16 +19,18 @@ namespace YASLife\Contracts;
 interface ServiceContract
 {
     /**
-     * Get Country Name.
+     * Call Repository and get data using country name.
      *
+     * @param RequestContract $request
      * @return ResponseContract
      */
-    public function getCountryName(): ResponseContract;
+    public function getCountryName(RequestContract $request): ResponseContract;
 
     /**
-     * Get Request, handle request.
+     * Check if the given two countries spoke the same languages or not.
      *
-     * @return mixed
+     * @param RequestContract $request
+     * @return ResponseContract
      */
-    public function checkTakingLanguage(): ResponseContract;
+    public function checkTakingLanguage(RequestContract $request): ResponseContract;
 }

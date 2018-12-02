@@ -28,23 +28,22 @@ class CountryResponse implements ResponseContract
     private $data;
 
     /**
+     * CountryResponse constructor.
+     *
+     * @param array $data
+     */
+    public function __construct(array $data)
+    {
+        $this->data = $data;
+    }
+
+    /**
      * Get request data.
      *
      * @return mixed
      */
     public function get(): string
     {
-        return implode("\n", $this->data) . "\n";
+        return sprintf("%s \n", implode("\n", $this->data));
     }
-
-    /**
-     * Create.
-     *
-     * @param array $data
-     */
-    public function create(array $data): void
-    {
-        $this->data = $data;
-    }
-
 }

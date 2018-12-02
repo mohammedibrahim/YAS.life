@@ -11,7 +11,6 @@
 namespace YASLife\Implementations;
 
 use YASLife\Contracts\APIsContract;
-use YASLife\Contracts\CountryAPIsContract;
 use YASLife\Contracts\RepositoryContract;
 
 /**
@@ -23,35 +22,50 @@ use YASLife\Contracts\RepositoryContract;
 class CountryRepository implements RepositoryContract
 {
     /**
-     * APIs.
+     * APIs class.
      *
      * @var APIsContract
      */
-    protected $APIs;
+    protected $apis;
 
     /**
      * CountryRepository constructor.
      *
-     * @param CountryAPIsContract $apis
+     * @param APIsContract $apis
      */
-    public function __construct(CountryAPIsContract $apis)
+    public function __construct(APIsContract $apis)
     {
-        $this->APIs = $apis;
+        $this->apis = $apis;
     }
 
     /**
-     * getByName.
+     * Get Country code by country name.
      *
+     * @param string $countryName
+     * @return string
+     * @throws \Exception
+     */
+    public function getCountryCode(string $countryName): string
+    {
+        $country = $this->apis->getCountry($countryName);
+
+        if (empty($country[0]['languages'][0]['iso639_1'])) {
+            throw new \Exception(sprintf('%s country not found!', $countryName));
+        }
+
+        return $country[0]['languages'][0]['iso639_1'];
+    }
+
+    /**
+     * Get Countries that speak the same language.
+     *
+     * @param string $countryCode
      * @param string $countryName
      * @return array
      */
-    public function getByName(string $countryName): array
+    public function getCountriesSpeakingSameLanguage(string $countryCode, string $countryName)
     {
-        $country = $this->APIs->getCountry($countryName);
-
-        $countryCode = @$country[0]['languages'][0]['iso639_1'];
-
-        $otherCountries = $this->APIs->countriesSpeakLanguage($countryCode);
+        $otherCountries = $this->apis->countriesSpeakLanguage($countryCode);
 
         $countries = [];
 
@@ -64,11 +78,7 @@ class CountryRepository implements RepositoryContract
             $countries[] = $otherCountry['name'];
         }
 
-        return [
-            'country' => $countryName,
-            'code' => $countryCode,
-            'countries' => $countries
-        ];
+        return $countries;
     }
 
 }

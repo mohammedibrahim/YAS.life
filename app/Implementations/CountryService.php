@@ -14,7 +14,7 @@ use YASLife\Contracts\RepositoryContract;
 use YASLife\Contracts\RequestContract;
 use YASLife\Contracts\ResponseContract;
 use YASLife\Contracts\ServiceContract;
-use YASLife\Contracts\ValidationContract;
+use YASLife\Implementations\Factories\CountryResponseFactory;
 
 /**
  * Country Service
@@ -25,13 +25,6 @@ use YASLife\Contracts\ValidationContract;
 class CountryService implements ServiceContract
 {
     /**
-     * Request.
-     *
-     * @var RequestContract
-     */
-    protected $request;
-
-    /**
      * Repository.
      *
      * @var RepositoryContract
@@ -39,70 +32,52 @@ class CountryService implements ServiceContract
     protected $repository;
 
     /**
-     * Response.
-     *
-     * @var ResponseContract
-     */
-    protected $response;
-
-    /**
-     * validation.
-     *
-     * @var ValidationContract
-     */
-    protected $validation;
-
-    /**
      * CountryService constructor.
+     * @param RepositoryContract $repository
+     */
+    public function __construct(RepositoryContract $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * Call Repository and get data using country name.
      *
      * @param RequestContract $request
-     * @param RepositoryContract $repository
-     * @param ResponseContract $response
-     */
-    public function __construct(RequestContract $request, RepositoryContract $repository, ResponseContract $response)
-    {
-        $this->request = $request;
-        $this->repository = $repository;
-        $this->response = $response;
-    }
-
-    /**
-     * Get Country Name.
-     *
      * @return ResponseContract
      */
-    public function getCountryName(): ResponseContract
+    public function getCountryName(RequestContract $request): ResponseContract
     {
-        $request = $this->request->get();
+        $countryName = $request->get()[1];
 
-        $country = $this->repository->getByName($request[1]);
+        $countryCode = $this->repository->getCountryCode($countryName);
+        $countries = $this->repository->getCountriesSpeakingSameLanguage($countryCode, $countryName);
 
-        $this->response->create([
-            'country_code' => 'Country language code: ' . $country['code'],
-            'countries' => $country['country'] . ' speaks same language with these countries: ' . implode(', ', $country['countries'])
+        return CountryResponseFactory::create([
+            'country_code' => 'Country language code: ' . $countryCode,
+            'countries' => $countryName . ' speaks same language with these countries: ' . implode(', ', $countries)
         ]);
-
-        return $this->response;
     }
 
     /**
-     * Get Request, handle request.
+     * Check if the given two countries spoke the same languages or not.
      *
-     * @return mixed
+     * @param RequestContract $request
+     * @return ResponseContract
      */
-    public function checkTakingLanguage(): ResponseContract
+    public function checkTakingLanguage(RequestContract $request): ResponseContract
     {
-        $request = $this->request->get();
+        $firstCountryName = $request->get()[1];
+        $secondCountryName = $request->get()[2];
 
-        $firstCountry = $this->repository->getByName($request[1]);
+        $firstCountryCode = $this->repository->getCountryCode($firstCountryName);
+        $secondCountryCode = $this->repository->getCountryCode($secondCountryName);
 
-        $secondCountry = $this->repository->getByName($request[2]);
-
-        $this->response->create([
-            sprintf('%s and %s %s the same language.', $firstCountry['country'], $secondCountry['country'], $firstCountry['code'] !== $secondCountry['code'] ? 'do not speak' : 'speak')
+        return CountryResponseFactory::create([
+            sprintf('%s and %s %s the same language.',
+                $firstCountryName, $secondCountryName,
+                $firstCountryCode !== $secondCountryCode ? 'do not speak' : 'speak')
         ]);
-
-        return $this->response;
     }
 
 }

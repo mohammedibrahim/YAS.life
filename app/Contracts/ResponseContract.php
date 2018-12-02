@@ -24,11 +24,4 @@ interface ResponseContract
      * @return mixed
      */
     public function get(): string;
-
-    /**
-     * Create.
-     *
-     * @param array $data
-     */
-    public function create(array $data): void;
 }

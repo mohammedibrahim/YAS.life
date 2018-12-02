@@ -10,7 +10,8 @@
 
 namespace YASLife\Implementations;
 
-use YASLife\Contracts\CountryAPIsContract;
+use GuzzleHttp\Client;
+use YASLife\Contracts\APIsContract;
 
 /**
  * Country APIs
@@ -18,73 +19,62 @@ use YASLife\Contracts\CountryAPIsContract;
  * Class CountryAPIs
  * @package YASLife\Implementations
  */
-class CountryAPIs implements CountryAPIsContract
+class CountryAPIs implements APIsContract
 {
     /**
-     * Base API Url.
-     */
-    const BASE_URL = 'https://restcountries.eu/rest/v2/';
-
-    /**
-     * apiUrl.
+     * guzzleClient.
      *
-     * @var
+     * @var Client
      */
-    private $apiUrl;
+    private $guzzleClient;
 
     /**
-     * Get.
+     * CountryAPIs constructor.
+     *
+     * @param Client $client
+     */
+    public function __construct(Client $client)
+    {
+        $this->guzzleClient = $client;
+    }
+
+    /**
+     * Get Country information by country name.
      *
      * @param string $countryName
      * @return array
-     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function getCountry(string $countryName): array
     {
-        $this->apiUrl = self::BASE_URL . 'name/' . $countryName . '?fullText=true';
+        $response = $this->guzzleClient->request('GET', sprintf('name/%s?fullText=true', $countryName));
 
-        $country = $this->request();
+        $country = json_decode($response->getBody(), 1);
 
-        if (empty($country)) {
-            throw new \Exception($countryName . ' country not found!');
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception(sprintf('%s country not found!', $countryName));
         }
-
-        $country = json_decode($country, 1);
 
         return $country;
     }
 
     /**
-     * Request.
+     * Get List of countries that speaks the same language with the given country code.
      *
-     * @return array
-     * @throws \Exception
-     */
-    public function request()
-    {
-        return @file_get_contents($this->apiUrl);
-    }
-
-    /**
-     * countriesSpeakLanguage.
      * @param string $languageCode
      * @return array
-     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function countriesSpeakLanguage(string $languageCode): array
     {
-        $this->apiUrl = self::BASE_URL . 'lang/' . $languageCode;
+        $response = $this->guzzleClient->request('GET', sprintf('lang/%s', $languageCode));
 
-        $countries = $this->request();
+        $countries = json_decode($response->getBody(), 1);
 
-        if (empty($countries)) {
-            throw new \Exception('Something went wrong');
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new \Exception(sprintf('Language code %s not found!', $languageCode));
         }
-
-        $countries = json_decode($countries, 1);
 
         return $countries;
     }
-
-
 }

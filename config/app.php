@@ -1,34 +1,29 @@
 <?php
 
-use YASLife\Contracts\CommandContract;
-use YASLife\Contracts\CountryAPIsContract;
+use GuzzleHttp\Client;
+use YASLife\Contracts\APIsContract;
+use YASLife\Contracts\RouteContract;
 use YASLife\Contracts\RepositoryContract;
-use YASLife\Contracts\RequestContract;
-use YASLife\Contracts\ResponseContract;
 use YASLife\Contracts\ServiceContract;
 use YASLife\Implementations\CountryAPIs;
-use YASLife\Implementations\CountryCommand;
+use YASLife\Implementations\CountryRoute;
 use YASLife\Implementations\CountryRepository;
-use YASLife\Implementations\CountryRequest;
-use YASLife\Implementations\CountryResponse;
 use YASLife\Implementations\CountryService;
+
+$apisConfig = require_once __DIR__ . '/apis.php';
 
 return [
     'bindings' => [
-        CommandContract::class => CountryCommand::class,
+        RouteContract::class => CountryRoute::class,
         ServiceContract::class => CountryService::class,
-        ResponseContract::class => CountryResponse::class,
         RepositoryContract::class => CountryRepository::class,
-        CountryAPIsContract::class => CountryAPIs::class,
-        RequestContract::class => function ($app) use ($argv) {
+        APIsContract::class => function ($app) use ($apisConfig) {
 
-            unset($argv[0]);
-
-            $request = $app->makeWith(CountryRequest::class, [
-                'data' => $argv,
+            $api = $app->makeWith(CountryAPIs::class, [
+                'client' => $app->makeWith(Client::class, ['config' => ['base_uri' => $apisConfig['apis']['base_url']]])
             ]);
 
-            return $request;
+            return $api;
         }
     ],
 ];

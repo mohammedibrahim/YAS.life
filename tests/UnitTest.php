@@ -29,7 +29,7 @@ abstract class UnitTest extends TestCase
      * @param array $mockMethods
      * @return mixed
      */
-    public function createClassWithAbstractParams($className, $params = [], $mockMethods = [])
+    public function createClassWithAbstractParams(string $className,array $params = [],array $mockMethods = []): object
     {
         $paramsMocks = [];
 

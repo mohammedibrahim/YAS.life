@@ -24,6 +24,6 @@ foreach ((array)$config['bindings'] as $contract => $abstract) {
 /**
  * Load Main Service.
  */
-$command = $container->make(\YASLife\Contracts\CommandContract::class);
+$command = $container->make(\YASLife\Contracts\RouteContract::class);
 
-$container->call([$command, 'handle']);
+$container->call([$command, 'print'], ['data' => $argv]);

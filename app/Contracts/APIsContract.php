@@ -18,11 +18,18 @@ namespace YASLife\Contracts;
  */
 interface APIsContract
 {
-
     /**
-     * Send Request.
+     * Get Country.
      *
+     * @param string $countryName
      * @return array
      */
-    public function request();
+    public function getCountry(string $countryName): array;
+
+    /**
+     * countriesSpeakLanguage.
+     * @param string $languageCode
+     * @return array
+     */
+    public function countriesSpeakLanguage(string $languageCode): array;
 }
