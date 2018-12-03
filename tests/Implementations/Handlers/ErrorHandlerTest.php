@@ -10,12 +10,11 @@
 
 namespace YASLifeTest\Implementations\Factories;
 
-use GuzzleHttp\Exception\ClientException;
 use YASLife\Implementations\Handlers\ErrorHandler;
 use YASLifeTest\UnitTest;
 
 /**
- * Country APIs Test
+ * Error Handler Test
  *
  * Class CountryAPIs
  * @package YASLife\Implementations
