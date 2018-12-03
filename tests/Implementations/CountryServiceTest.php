@@ -25,25 +25,18 @@ use YASLifeTest\UnitTest;
 class CountryServiceTest extends UnitTest
 {
     /**
-     * Data Request.
+     * getCountryCodeResponse.
      *
-     * @var
+     * @var array
      */
-    protected $requestData;
+    protected $getCountryCodeResponse;
 
     /**
-     * Api Response Data.
+     * getCountriesSpeakingSameLanguageResponse.
      *
-     * @var
+     * @var array
      */
-    protected $apiResponseData;
-
-    /**
-     * response data of get method.
-     *
-     * @var
-     */
-    protected $responseGet;
+    protected $getCountriesSpeakingSameLanguageResponse;
 
     /**
      * service class.
@@ -53,61 +46,53 @@ class CountryServiceTest extends UnitTest
     protected $service;
 
     /**
+     * requestMock.
+     *
+     * @var RequestContract
+     */
+    protected $requestMock;
+
+    /**
      * Test Get Country Name.
      */
     public function testGetCountryName()
     {
-        $this->requestData = [
-            1 => 'Egypt'
+        $this->getCountryCodeResponse = [
+            ['Egypt', 'ar'],
+            ['Saudi Arabia', 'ar']
         ];
-
-        $this->apiResponseData = [
-            [
-                'Egypt',
-                [
-                    'country' => 'Egypt',
-                    'code' => 'ar',
-                    'countries' => ['algeria', 'Saudi Arabia', 'Libya', 'Syria']
-                ]
-            ]
-        ];
-
-        $this->responseGet =
-            implode("\n", [
-                'country_code' => 'Country language code: ' . $this->apiResponseData[0][1]['code'],
-                'countries' => $this->apiResponseData[0][1]['country'] . ' speaks same language with these countries: ' . implode(', ', $this->apiResponseData[0][1]['countries'])
-            ]) . "\n";
 
         $this->createRequestMock();
 
-        $result = $this->service->getCountryName();
+        $this->requestMock->method('get')->will($this->returnValue([
+            1 => 'Egypt',
+            2 => 'Saudi Arabia'
+        ]));
+
+        $this->requestMock->method('get')->will($this->returnValue([1 => 'Egypt']));
+
+        $result = $this->service->getCountryName($this->requestMock);
 
         $this->assertInstanceOf(ResponseContract::class, $result);
 
-        $this->assertEquals("Country language code: ar\nEgypt speaks same language with these countries: algeria, Saudi Arabia, Libya, Syria\n", $result->get());
+        $this->assertEquals("Country language code: ar\nEgypt speaks same language with these countries: Algeria, Saudi Arabia, Libya, Syria\n", $result->get());
     }
 
     /**
      * create Request Mock.
      */
-    public function createRequestMock()
+    protected function createRequestMock()
     {
         $this->service = $this->createClassWithAbstractParams(CountryService::class, [
-            RequestContract::class,
             CountryRepository::class,
-            ResponseContract::class
         ], [
-            RequestContract::class => [
-                'get' => $this->requestData,
-            ],
             CountryRepository::class => [
-                'getByName' => $this->returnValueMap($this->apiResponseData)
-            ],
-            ResponseContract::class => [
-                'create' => null,
-                'get' => $this->responseGet
+                'getCountryCode' => $this->returnValueMap($this->getCountryCodeResponse),
+                'getCountriesSpeakingSameLanguage' => ['Algeria', 'Saudi Arabia', 'Libya', 'Syria'],
             ]
         ]);
+
+        $this->requestMock = $this->getMockBuilder(RequestContract::class)->getMock();
     }
 
     /**
@@ -115,39 +100,23 @@ class CountryServiceTest extends UnitTest
      */
     public function testCheckTakingLanguageNotMatch()
     {
-        $this->requestData = [
-            1 => 'Egypt',
-            2 => 'Germany'
+        $this->getCountryCodeResponse = [
+            ['Egypt', 'ar'],
+            ['Germany', 'de']
         ];
-
-        $this->apiResponseData = [
-            [
-                'Egypt',
-                [
-                    'country' => 'Egypt',
-                    'code' => 'ar',
-                    'countries' => ['Algeria', 'Saudi Arabia', 'Libya', 'Syria']
-                ],
-            ],
-            [
-                'Germany',
-                [
-                    'country' => 'Germany',
-                    'code' => 'de',
-                    'countries' => ['Belgium,', 'Belgium', 'Liechtenstein,', 'Luxembourg']
-                ],
-            ]
-        ];
-
-        $this->responseGet = sprintf('%s and %s %s the same language.', $this->apiResponseData[0][1]['country'], $this->apiResponseData[1][1]['country'], $this->apiResponseData[0][1]['code'] !== $this->apiResponseData[1][1]['code'] ? 'do not speak' : 'speak');
 
         $this->createRequestMock();
 
-        $result = $this->service->checkTakingLanguage();
+        $this->requestMock->method('get')->will($this->returnValue([
+            1 => 'Egypt',
+            2 => 'Germany'
+        ]));
+
+        $result = $this->service->checkTakingLanguage($this->requestMock);
 
         $this->assertInstanceOf(ResponseContract::class, $result);
 
-        $this->assertEquals("Egypt and Germany do not speak the same language.", $result->get());
+        $this->assertEquals("Egypt and Germany do not speak the same language.\n", $result->get());
 
     }
 
@@ -156,39 +125,23 @@ class CountryServiceTest extends UnitTest
      */
     public function testCheckTakingLanguageMatch()
     {
-        $this->requestData = [
-            1 => 'Egypt',
-            2 => 'Saudi Arabia'
+        $this->getCountryCodeResponse = [
+            ['Egypt', 'ar'],
+            ['Saudi Arabia', 'ar']
         ];
-
-        $this->apiResponseData = [
-            [
-                'Egypt',
-                [
-                    'country' => 'Egypt',
-                    'code' => 'ar',
-                    'countries' => ['algeria', 'Saudi Arabia', 'Libya', 'Syria']
-                ],
-            ],
-            [
-                'Saudi Arabia',
-                [
-                    'country' => 'Saudi Arabia',
-                    'code' => 'ar',
-                    'countries' => ['algeria', 'Egypt', 'Libya', 'Syria']
-                ],
-            ]
-        ];
-
-        $this->responseGet = sprintf('%s and %s %s the same language.', $this->apiResponseData[0][1]['country'], $this->apiResponseData[1][1]['country'], $this->apiResponseData[0][1]['code'] !== $this->apiResponseData[1][1]['code'] ? 'do not speak' : 'speak');
 
         $this->createRequestMock();
 
-        $result = $this->service->checkTakingLanguage();
+        $this->requestMock->method('get')->will($this->returnValue([
+            1 => 'Egypt',
+            2 => 'Saudi Arabia'
+        ]));
+
+        $result = $this->service->checkTakingLanguage($this->requestMock);
 
         $this->assertInstanceOf(ResponseContract::class, $result);
 
-        $this->assertEquals("Egypt and Saudi Arabia speak the same language.", $result->get());
+        $this->assertEquals("Egypt and Saudi Arabia speak the same language.\n", $result->get());
 
     }
 }

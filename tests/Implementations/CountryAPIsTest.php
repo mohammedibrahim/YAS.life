@@ -10,6 +10,8 @@
 
 namespace YASLifeTest\Implementations;
 
+use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Response;
 use YASLife\Implementations\CountryAPIs;
 use YASLifeTest\UnitTest;
 
@@ -38,41 +40,56 @@ class CountryAPIsTest extends UnitTest
     /**
      * test Get Country.
      *
-     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testGetCountry()
     {
         $countryName = 'Egypt';
+        $responseJson = '[1,2,3]';
 
-        $this->apiResponseData = ['country' => 'Egypt'];
+        $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
+        $response->method('getBody')->will($this->returnValue($responseJson));
+
+        $this->apiResponseData = [
+            ['GET', sprintf('name/Egypt?fullText=true'), [], $response],
+        ];
 
         $this->mockAPIs();
 
         $result = $this->APIs->getCountry($countryName);
 
-        $this->assertEquals(json_encode($this->apiResponseData), json_encode($result));
+        $this->assertEquals($responseJson, json_encode($result));
     }
 
     /**
-     * mockAPIs.
+     * Mock APIs.
+     *
      */
     public function mockAPIs()
     {
-        $this->APIs = $this->getMockBuilder(CountryAPIs::class)->setMethods(['request'])->getMock();
-
-        $this->APIs->expects($this->once())->method('request')->willReturn(json_encode($this->apiResponseData));
-
+        $this->APIs = $this->createClassWithAbstractParams(CountryAPIs::class, [ClientInterface::class], [
+            ClientInterface::class => [
+                'request' => $this->returnValueMap($this->apiResponseData)
+            ]
+        ]);
     }
 
     /**
-     * testGetCountryNotFound.
+     * Test get country not found.
      *
-     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testGetCountryNotFound()
     {
         $countryName = 'Egypt';
-        $this->apiResponseData = 0;
+        $responseJson = false;
+
+        $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
+        $response->method('getBody')->will($this->returnValue($responseJson));
+
+        $this->apiResponseData = [
+            ['GET', sprintf('name/Egypt?fullText=true'), [], $response],
+        ];
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage($countryName . ' country not found!');
@@ -80,43 +97,51 @@ class CountryAPIsTest extends UnitTest
         $this->mockAPIs();
         $this->APIs->getCountry($countryName);
 
-
     }
 
     /**
-     * testCountriesSpeakLanguage.
+     * Asset result is equal to what is excepted.
      *
-     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testCountriesSpeakLanguage()
     {
         $countryCode = 'ar';
+        $responseJson = '[1,2,3]';
 
-        $this->apiResponseData = ['code' => 'ar'];
+        $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
+        $response->method('getBody')->will($this->returnValue($responseJson));
+
+        $this->apiResponseData = [
+            ['GET', sprintf('lang/ar'), [], $response],
+        ];
 
         $this->mockAPIs();
 
         $result = $this->APIs->countriesSpeakLanguage($countryCode);
 
-        $this->assertEquals(json_encode($this->apiResponseData), json_encode($result));
+        $this->assertEquals($responseJson, json_encode($result));
     }
 
     /**
-     * testCountriesSpeakLanguageNotFound.
+     * Must return an exception when json format is invalid
      *
-     * @throws \Exception
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testCountriesSpeakLanguageNotFound()
     {
-        $countryCode = 'ar';
-        $this->apiResponseData = 0;
+        $languageCode = 'ar';
+        $responseJson = false;
+        $response = $this->getMockBuilder(Response::class)->disableOriginalConstructor()->getMock();
+        $response->method('getBody')->will($this->returnValue($responseJson));
+        $this->apiResponseData = [
+            ['GET', sprintf('lang/ar'), [], $response],
+        ];
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage('Something went wrong');
+        $this->expectExceptionMessage(sprintf('Language code %s not found!', $languageCode));
 
         $this->mockAPIs();
-        $this->APIs->countriesSpeakLanguage($countryCode);
-
-
+        $this->APIs->countriesSpeakLanguage($languageCode);
     }
 }

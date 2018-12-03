@@ -55,8 +55,8 @@ class CountryService implements ServiceContract
         $countries = $this->repository->getCountriesSpeakingSameLanguage($countryCode, $countryName);
 
         return CountryResponseFactory::create([
-            'country_code' => 'Country language code: ' . $countryCode,
-            'countries' => $countryName . ' speaks same language with these countries: ' . implode(', ', $countries)
+            'country_code' => sprintf('Country language code: %s', $countryCode),
+            'countries' => sprintf('%s speaks same language with these countries: %s', $countryName, implode(', ', $countries))
         ]);
     }
 

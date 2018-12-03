@@ -63,7 +63,6 @@ class CountryRoute implements RouteContract
     public function serve(ServiceContract $service, array $data): ResponseContract
     {
         unset($data[0]);
-
         if (empty($this->countryServiceMapper[sizeof($data)])) {
             throw new \Exception('Your command syntax must follow this schema "php index.php [string country_name] [OPTIONAL string second_country_name]"');
         }

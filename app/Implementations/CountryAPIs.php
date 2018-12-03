@@ -10,7 +10,7 @@
 
 namespace YASLife\Implementations;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\ClientInterface;
 use YASLife\Contracts\APIsContract;
 
 /**
@@ -24,16 +24,16 @@ class CountryAPIs implements APIsContract
     /**
      * guzzleClient.
      *
-     * @var Client
+     * @var ClientInterface
      */
     private $guzzleClient;
 
     /**
      * CountryAPIs constructor.
      *
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->guzzleClient = $client;
     }

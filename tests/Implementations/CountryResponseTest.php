@@ -28,25 +28,25 @@ class CountryResponseTest extends UnitTest
      */
     protected $response;
 
+    protected $responseDate = [
+        'response Data'
+    ];
+
     /**
      * setUp.
      */
     public function setUp()
     {
-        $this->response = new CountryResponse();
+        $this->response = new CountryResponse($this->responseDate);
     }
 
     /**
      * testCreate.
      */
-    public function testCreate()
+    public function testGet()
     {
-        $data = ['test response'];
-
-        $this->response->create($data);
-
         $result = $this->response->get();
 
-        $this->assertEquals($result, implode("\n", $data) . "\n");
+        $this->assertEquals(implode("\n", $this->responseDate) . "\n", $result);
     }
 }
