@@ -42,7 +42,7 @@ php index.php [Country name]
 | :---        | :---: | :-------- | --- |
 | Country name  | Yes  | None | Spain |
 
-##### To check if two countries speak the same languages or not.
+##### To check if two countries are speaking the same languages or not.
 
 ```bash
 php index.php [First country name] [Second country name]
