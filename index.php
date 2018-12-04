@@ -33,4 +33,6 @@ $command = $container->makeWith(\YASLife\Contracts\RouteContract::class, [
     'serviceMapper' => $serviceMapper
 ]);
 
+unset($argv[0]);
+
 $container->call([$command, 'print'], ['data' => $argv]);
