@@ -47,6 +47,6 @@ class CountryResponseTest extends UnitTest
     {
         $result = $this->response->get();
 
-        $this->assertEquals(implode("\n", $this->responseDate) . "\n", $result);
+        $this->assertEquals(sprintf('%s%s', implode(PHP_EOL, $this->responseDate), PHP_EOL), $result);
     }
 }

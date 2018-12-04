@@ -75,7 +75,7 @@ class CountryServiceTest extends UnitTest
 
         $this->assertInstanceOf(ResponseContract::class, $result);
 
-        $this->assertEquals("Country language code: ar\nEgypt speaks same language with these countries: Algeria, Saudi Arabia, Libya, Syria\n", $result->get());
+        $this->assertEquals(sprintf('Country language code: ar%sEgypt speaks same language with these countries: Algeria, Saudi Arabia, Libya, Syria%s', PHP_EOL, PHP_EOL), $result->get());
     }
 
     /**
@@ -116,7 +116,7 @@ class CountryServiceTest extends UnitTest
 
         $this->assertInstanceOf(ResponseContract::class, $result);
 
-        $this->assertEquals("Egypt and Germany do not speak the same language.\n", $result->get());
+        $this->assertEquals(sprintf('Egypt and Germany do not speak the same language.%s', PHP_EOL), $result->get());
 
     }
 
@@ -141,7 +141,7 @@ class CountryServiceTest extends UnitTest
 
         $this->assertInstanceOf(ResponseContract::class, $result);
 
-        $this->assertEquals("Egypt and Saudi Arabia speak the same language.\n", $result->get());
+        $this->assertEquals(sprintf('Egypt and Saudi Arabia speak the same language.%s',PHP_EOL), $result->get());
 
     }
 }

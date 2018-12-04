@@ -43,7 +43,6 @@ class ErrorHandlerTest extends UnitTest
 
         $error = new \Exception($errorMessage);
         $error = $this->errorHandler->getErrorMessage($error);
-
-        $this->assertEquals($errorMessage . "\n", $error);
+        $this->assertEquals(sprintf('%s%s',$errorMessage, PHP_EOL,PHP_EOL), $error);
     }
 }
