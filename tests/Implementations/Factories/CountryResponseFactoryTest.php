@@ -27,6 +27,6 @@ class CountryResponseFactoryTest extends UnitTest
     public function testCreate()
     {
         $data = ['custom data', 'custom data'];
-        $this->assertEquals(implode("\n", $data) . "\n", CountryResponseFactory::create($data)->get());
+        $this->assertEquals(sprintf('%s%s',implode(PHP_EOL, $data), PHP_EOL), CountryResponseFactory::create($data)->get());
     }
 }

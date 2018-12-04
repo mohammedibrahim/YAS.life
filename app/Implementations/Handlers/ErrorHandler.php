@@ -39,7 +39,7 @@ class ErrorHandler
                 break;
         }
 
-        return sprintf("%s\n", $errorMessage);
+        return sprintf("%s%s", $errorMessage, PHP_EOL);
     }
 
     /**

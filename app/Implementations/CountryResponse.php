@@ -44,6 +44,6 @@ class CountryResponse implements ResponseContract
      */
     public function get(): string
     {
-        return sprintf("%s\n", implode("\n", $this->data));
+        return sprintf("%s%s", implode(PHP_EOL, $this->data), PHP_EOL);
     }
 }

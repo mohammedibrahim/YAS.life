@@ -28,7 +28,7 @@ class CountryAPIsTest extends UnitTest
      *
      * @var CountryAPIs
      */
-    protected $APIs;
+    protected $apis;
 
     /**
      * apiResponseData.
@@ -56,7 +56,7 @@ class CountryAPIsTest extends UnitTest
 
         $this->mockAPIs();
 
-        $result = $this->APIs->getCountry($countryName);
+        $result = $this->apis->getCountry($countryName);
 
         $this->assertEquals($responseJson, json_encode($result));
     }
@@ -67,7 +67,7 @@ class CountryAPIsTest extends UnitTest
      */
     public function mockAPIs()
     {
-        $this->APIs = $this->createClassWithAbstractParams(CountryAPIs::class, [ClientInterface::class], [
+        $this->apis = $this->createClassWithAbstractParams(Countryapis::class, [ClientInterface::class], [
             ClientInterface::class => [
                 'request' => $this->returnValueMap($this->apiResponseData)
             ]
@@ -95,7 +95,7 @@ class CountryAPIsTest extends UnitTest
         $this->expectExceptionMessage($countryName . ' country not found!');
 
         $this->mockAPIs();
-        $this->APIs->getCountry($countryName);
+        $this->apis->getCountry($countryName);
 
     }
 
@@ -118,7 +118,7 @@ class CountryAPIsTest extends UnitTest
 
         $this->mockAPIs();
 
-        $result = $this->APIs->countriesSpeakLanguage($countryCode);
+        $result = $this->apis->countriesSpeakLanguage($countryCode);
 
         $this->assertEquals($responseJson, json_encode($result));
     }
@@ -142,6 +142,6 @@ class CountryAPIsTest extends UnitTest
         $this->expectExceptionMessage(sprintf('Language code %s not found!', $languageCode));
 
         $this->mockAPIs();
-        $this->APIs->countriesSpeakLanguage($languageCode);
+        $this->apis->countriesSpeakLanguage($languageCode);
     }
 }
