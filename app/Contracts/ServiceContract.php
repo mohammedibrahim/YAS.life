@@ -32,5 +32,5 @@ interface ServiceContract
      * @param RequestContract $request
      * @return ResponseContract
      */
-    public function checkTakingLanguage(RequestContract $request): ResponseContract;
+    public function checkTalkingLanguage(RequestContract $request): ResponseContract;
 }

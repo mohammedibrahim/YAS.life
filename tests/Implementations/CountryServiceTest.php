@@ -98,7 +98,7 @@ class CountryServiceTest extends UnitTest
     /**
      * Test Check Taking Language Not Match.
      */
-    public function testCheckTakingLanguageNotMatch()
+    public function testcheckTalkingLanguageNotMatch()
     {
         $this->getCountryCodeResponse = [
             ['Egypt', 'ar'],
@@ -112,7 +112,7 @@ class CountryServiceTest extends UnitTest
             2 => 'Germany'
         ]));
 
-        $result = $this->service->checkTakingLanguage($this->requestMock);
+        $result = $this->service->checkTalkingLanguage($this->requestMock);
 
         $this->assertInstanceOf(ResponseContract::class, $result);
 
@@ -123,7 +123,7 @@ class CountryServiceTest extends UnitTest
     /**
      * Test Check Taking Language Match.
      */
-    public function testCheckTakingLanguageMatch()
+    public function testcheckTalkingLanguageMatch()
     {
         $this->getCountryCodeResponse = [
             ['Egypt', 'ar'],
@@ -137,7 +137,7 @@ class CountryServiceTest extends UnitTest
             2 => 'Saudi Arabia'
         ]));
 
-        $result = $this->service->checkTakingLanguage($this->requestMock);
+        $result = $this->service->checkTalkingLanguage($this->requestMock);
 
         $this->assertInstanceOf(ResponseContract::class, $result);
 

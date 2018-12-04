@@ -66,7 +66,7 @@ class CountryService implements ServiceContract
      * @param RequestContract $request
      * @return ResponseContract
      */
-    public function checkTakingLanguage(RequestContract $request): ResponseContract
+    public function checkTalkingLanguage(RequestContract $request): ResponseContract
     {
         $firstCountryName = $request->get()[1];
         $secondCountryName = $request->get()[2];

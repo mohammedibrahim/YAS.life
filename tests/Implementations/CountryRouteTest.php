@@ -68,7 +68,14 @@ class CountryCommandTest extends UnitTest
      */
     public function setUp()
     {
-        $this->countryRoute = new CountryRoute();
+        $this->countryRoute = new CountryRoute([
+            1 => function (ServiceContract $service, \YASLife\Contracts\RequestContract $request) {
+                return $service->getCountryName($request);
+            },
+            2 => function (ServiceContract $service, \YASLife\Contracts\RequestContract $request) {
+                return $service->checkTalkingLanguage($request);
+            },
+        ]);
         $this->countryServiceMock = $this->getMockBuilder(ServiceContract::class)->disableOriginalConstructor()->getMock();
         $this->errorHandlerMock = $this->getMockBuilder(ErrorHandler::class)->getMock();
         $this->countryResponseMock = $this->getMockBuilder(ResponseContract::class)->getMock();
@@ -112,7 +119,7 @@ class CountryCommandTest extends UnitTest
     public function testPrint()
     {
         $responseText = 'Dummy text for response';
-        $this->countryRoute = $this->getMockBuilder(CountryRoute::class)->setMethods(['serve'])->getMock();
+        $this->countryRoute = $this->getMockBuilder(CountryRoute::class)->setMethods(['serve'])->disableOriginalConstructor()->getMock();
         $this->countryResponseMock->method('get')->willReturn($responseText);
         $this->countryRoute->expects($this->once())->method('serve')->willReturn($this->countryResponseMock);
 
@@ -131,7 +138,7 @@ class CountryCommandTest extends UnitTest
     {
         $exceptionText = 'dummy exception text';
         $this->errorHandlerMock->method('getErrorMessage')->will($this->returnValue('Error: ' . $exceptionText));
-        $this->countryRoute = $this->getMockBuilder(CountryRoute::class)->setMethods(['serve'])->getMock();
+        $this->countryRoute = $this->getMockBuilder(CountryRoute::class)->disableOriginalConstructor()->setMethods(['serve'])->getMock();
         $this->countryRoute->expects($this->once())->method('serve')->will($this->throwException(new \Exception($exceptionText)));
 
         ob_start();
